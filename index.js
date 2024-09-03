@@ -36,9 +36,9 @@ const parseDodge = async (data) => {
 
 const getPlayersData = async () => {
   const [reqM, reqG, reqC] = await Promise.all([
-    fetch(`https://br1.api.riotgames.com/lol/league/v4/masterleagues/by-queue/RANKED_SOLO_5x5?api_key=${process.env.RIOT_API_KEY}`),
-    fetch(`https://br1.api.riotgames.com/lol/league/v4/grandmasterleagues/by-queue/RANKED_SOLO_5x5?api_key=${process.env.RIOT_API_KEY}`),
-    fetch(`https://br1.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5?api_key=${process.env.RIOT_API_KEY}`),
+    fetch(`https://br1.api.riotgames.com/lol/league/v4/masterleagues/by-queue/RANKED_FLEX_SR?api_key=${process.env.RIOT_API_KEY}`),
+    fetch(`https://br1.api.riotgames.com/lol/league/v4/grandmasterleagues/by-queue/RANKED_FLEX_SR?api_key=${process.env.RIOT_API_KEY}`),
+    fetch(`https://br1.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/RANKED_FLEX_SR?api_key=${process.env.RIOT_API_KEY}`),
   ])
 
   const newDodges = []
