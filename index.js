@@ -11,7 +11,6 @@ const knex = require('knex')({
 });
 
 let lastRequest = {}
-let fetchCount = 1;
 
 const parseDodge = async (data) => {
   const req = await fetch(`https://br1.api.riotgames.com/lol/summoner/v4/summoners/${data.summonerId}?api_key=${process.env.RIOT_API_KEY}`)
@@ -36,7 +35,6 @@ const parseDodge = async (data) => {
 }
 
 const getPlayersData = async () => {
-  console.log('fetch count:', fetchCount++)
   const [reqM, reqG, reqC] = await Promise.all([
     fetch(`https://br1.api.riotgames.com/lol/league/v4/masterleagues/by-queue/RANKED_FLEX_SR?api_key=${process.env.RIOT_API_KEY}`),
     fetch(`https://br1.api.riotgames.com/lol/league/v4/grandmasterleagues/by-queue/RANKED_FLEX_SR?api_key=${process.env.RIOT_API_KEY}`),
@@ -76,6 +74,10 @@ const getPlayersData = async () => {
     getPlayersData()
   }, 5000)
 }
+
+app.get('/', (_, res) => {
+  res.send('nice')
+})
 
 app.listen(process.env.PORT, () => {
   console.log(`Server running at http://localhost:${process.env.PORT}`);
