@@ -3,8 +3,8 @@ import 'dotenv/config'
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
  */
-module.exports = {
 
+export default {
   development: {
     client: "pg",
     connection: process.env.DATABASE_URI,
@@ -12,5 +12,4 @@ module.exports = {
       directory: "./knex/migrations",
     }
   },
-
-};
+}
