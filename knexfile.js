@@ -9,7 +9,7 @@ module.exports = {
     client: "pg",
     connection: process.env.DATABASE_URI,
     migrations: {
-      directory: "./migrations",
+      directory: "./knex/migrations",
     }
   },
 
