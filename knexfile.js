@@ -9,7 +9,7 @@ export default {
     client: "pg",
     connection: process.env.DATABASE_URI,
     migrations: {
-      directory: "./knex/migrations",
+      directory: "./src/knex/migrations",
     }
   },
 }
