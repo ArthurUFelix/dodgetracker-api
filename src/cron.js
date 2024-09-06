@@ -83,6 +83,6 @@ const fetchQueueLeaderboard = async (queue) => {
 }
 
 export default cron.schedule('*/10 * * * * *', () => {
-  // fetchQueueLeaderboard('SOLO')
-  // fetchQueueLeaderboard('FLEX')
+  fetchQueueLeaderboard('SOLO')
+  fetchQueueLeaderboard('FLEX')
 });
