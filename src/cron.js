@@ -1,6 +1,8 @@
 import Redis from 'ioredis'
 import cron from 'node-cron'
 import knex from './knex/knex.js'
+import { wss } from './index.js'
+
 const redis = new Redis(process.env.REDIS_URL)
 
 const leaderboardUrl = 'https://br1.api.riotgames.com/lol/league/v4/'
@@ -72,8 +74,10 @@ const fetchQueueLeaderboard = async (queue) => {
   }, {})
 
   if (newDodges.length) {
-    // websocket stuff later
-    console.log('inserted', newDodges, newDodges[0].id)
+    console.log('sending dodges to ws', newDodges)
+    wss.clients.forEach(function(client) {
+      client.send(JSON.stringify(newDodges));
+    });
   }
 
   await redis.set(`LAST_SUMMONER_INFO_${queue}`, JSON.stringify(resBySummoner))

@@ -1,5 +1,4 @@
 import Knex from 'knex';
-import 'dotenv/config'
 
 export default Knex({
   client: "pg",
