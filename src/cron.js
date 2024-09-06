@@ -43,8 +43,9 @@ const fetchQueueLeaderboard = async (queue) => {
   const newDodges = []
   const latestSumInfo = JSON.parse(await redis.get(`LAST_SUMMONER_INFO_${queue}`) || '{}')
 
-  const resBySummoner = await leaderboardResponse.reduce(async (acc, crr) => {
-    for (const sumInfo of crr.entries) {
+  const resBySummoner = {}
+  for (const league of leaderboardResponse) {
+    for (const sumInfo of league.entries) {
       const found = latestSumInfo[sumInfo.summonerId]
       const lpLost = (found?.lp || 0) - sumInfo.leaguePoints
       if (found &&
@@ -55,23 +56,21 @@ const fetchQueueLeaderboard = async (queue) => {
       ) {
         const dodge = await insertDodge({
           ...sumInfo,
-          tier: crr.tier,
+          tier: league.tier,
           lpLost,
           queue,
         })
         newDodges.push(dodge)
       }
 
-      acc[sumInfo.summonerId] = {
+      resBySummoner[sumInfo.summonerId] = {
         lp: sumInfo.leaguePoints,
         wins: sumInfo.wins,
         losses: sumInfo.losses,
-        rank: crr.tier,
+        rank: league.tier,
       }
     }
-
-    return acc
-  }, {})
+  }
 
   if (newDodges.length) {
     console.log('sending dodges to ws', newDodges)
@@ -84,6 +83,6 @@ const fetchQueueLeaderboard = async (queue) => {
 }
 
 export default cron.schedule('*/10 * * * * *', () => {
-  fetchQueueLeaderboard('SOLO')
-  fetchQueueLeaderboard('FLEX')
+  // fetchQueueLeaderboard('SOLO')
+  // fetchQueueLeaderboard('FLEX')
 });
