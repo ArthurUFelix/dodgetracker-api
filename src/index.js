@@ -15,11 +15,18 @@ app.get('/', (_, res) => {
 })
 
 app.get('/dodges', async (req, res) => {
-  const dodges = await knex('dodges')
+  const flexDodges = await knex('dodges')
     .orderBy('time', 'DESC')
+    .where({ queue: 'FLEX' })
+    .limit(50)
+    .select(['id', 'rank', 'lp', 'lpLost', 'profileIconId', 'gameName', 'tagLine', 'time', 'queue'])
+  const soloDodges = await knex('dodges')
+    .orderBy('time', 'DESC')
+    .where({ queue: 'SOLO' })
+    .limit(50)
     .select(['id', 'rank', 'lp', 'lpLost', 'profileIconId', 'gameName', 'tagLine', 'time', 'queue'])
 
-  res.send(JSON.stringify(dodges))
+  res.send(JSON.stringify([...soloDodges, ...flexDodges]))
 })
 
 const server = app.listen(process.env.PORT, () => {
