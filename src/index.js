@@ -29,6 +29,13 @@ app.get('/dodges', async (req, res) => {
   res.send(JSON.stringify([...soloDodges, ...flexDodges]))
 })
 
+app.get('/cut', async (req, res) => {
+  const solo = JSON.parse(await redis.get(`SOLO_LP_CUT`) || '{}')
+  const flex = JSON.parse(await redis.get(`FLEX_LP_CUT`) || '{}')
+
+  res.send(JSON.stringify({ solo, flex }))
+})
+
 const server = app.listen(process.env.PORT, () => {
   console.log(`Server running at http://localhost:${process.env.PORT}`);
   console.log('Limpando redis fi')
