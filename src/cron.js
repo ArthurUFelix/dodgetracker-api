@@ -73,8 +73,8 @@ const fetchQueueLeaderboard = async (queue) => {
   }
 
   const sortedByLp = leaderboardResponse.reduce((acc, crr) => [...acc, ...crr.entries], []).sort((a, b) => b.leaguePoints - a.leaguePoints)
-  const challenger = Math.max(500, sortedByLp[199]?.leaguePoints + 1)
-  const grandmaster = Math.max(200, sortedByLp[699]?.leaguePoints + 1)
+  const challenger = Math.max(500, sortedByLp[199] ? sortedByLp[199].leaguePoints + 1 : 0)
+  const grandmaster = Math.max(200, sortedByLp[699] ? sortedByLp[699].leaguePoints + 1 : 0)
   await redis.set(`${queue}_LP_CUT`, JSON.stringify({ challenger, grandmaster }))
 
   if (newDodges.length) {
