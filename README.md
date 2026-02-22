@@ -1,5 +1,5 @@
 
-# Dodgetracker API
+# Dodges API
 
 Keep track of current dodges in League of Legends high elo + LP cut of grandmaster and challenger queues.
 
